@@ -44,6 +44,23 @@
                  "width":320,
                  "x":0,
                  "y":0
+                }, 
+                {
+                 "height":70,
+                 "id":6,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"collision",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":320,
+                 "x":0,
+                 "y":0
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -71,9 +88,38 @@
          "width":20,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":5,
+         "name":"coban_door",
+         "objects":[
+                {
+                 "height":19,
+                 "id":4,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"targetScene",
+                         "type":"string",
+                         "value":"coban"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":13,
+                 "x":17.5,
+                 "y":53.9
+                }],
+         "opacity":1,
+         "parallaxx":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":5,
- "nextobjectid":4,
+ "nextlayerid":6,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
