@@ -17,15 +17,37 @@
          "id":1,
          "name":"Tile Layer 1",
          "opacity":1,
-         "properties":[
-                {
-                 "name":"collides",
-                 "type":"bool",
-                 "value":true
-                }],
          "type":"tilelayer",
          "visible":true,
          "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":4,
+         "name":"wall",
+         "objects":[
+                {
+                 "height":70,
+                 "id":1,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"collision",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":320,
+                 "x":0,
+                 "y":0
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -50,8 +72,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":4,
- "nextobjectid":1,
+ "nextlayerid":5,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
@@ -60,7 +82,7 @@
         {
          "columns":17,
          "firstgid":1,
-         "image":"assets/tilesets/hub_tileset/room.png",
+         "image":"Modern_Interiors_Free_v2.2\/Modern tiles_Free\/Interiors_free\/16x16\/Room_Builder_free_16x16.png",
          "imageheight":368,
          "imagewidth":272,
          "margin":0,
@@ -73,7 +95,7 @@
         {
          "columns":16,
          "firstgid":392,
-         "image":"assets/tilesets/hub_tileset/furniture.png",
+         "image":"Modern_Interiors_Free_v2.2\/Modern tiles_Free\/Interiors_free\/16x16\/Interiors_free_16x16.png",
          "imageheight":1424,
          "imagewidth":256,
          "margin":0,

@@ -29,19 +29,27 @@ class HubScene extends Phaser.Scene {
     const floorLayer = map.createLayer('Tile Layer 1', [floorTiles]);
     const wallLayer = map.createLayer('Tile Layer 2', [furnTiles]);
 
-    floorLayer.setCollisionByProperty({ collides: true });
-    wallLayer.setCollisionByProperty({ collides: true });
-
     player = this.physics.add.sprite(16, 150, 'player_idle', 0);
     player.setOrigin(0.5, 1);
     player.setDepth(1);
     player.setCollideWorldBounds(true);
 
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    this.physics.add.collider(player, floorLayer);
-    this.physics.add.collider(player, wallLayer);
 
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    const wallObjects = map.getObjectLayer('wall').objects;
+    wallObjects.forEach(obj => {
+      const wall = this.add.rectangle(
+        obj.x,
+        obj.y,
+        obj.width,
+        obj.height
+      ).setOrigin(0, 0);
+      wall.visible = false;
+      this.physics.add.existing(wall, true);
+      this.physics.add.collider(player, wall);
+    });
 
     // Idle animations
     this.anims.create({ key: 'idle-right', frames: [ { key: 'player_idle', frame: 0 } ] });
