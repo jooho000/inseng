@@ -169,7 +169,6 @@ class CobanScene extends Phaser.Scene {
     const upperTreesLayer = map.createLayer("upper_trees_layer", tilesets.smallTrees);
     const upperTreesSecondLayer = map.createLayer("upper_trees_second_layer", tilesets.smallTrees);
 
-    // ✅ Properly use tile property-based collision
     [wallLayer, propsLayer, upperTreesLayer, upperTreesSecondLayer, waterLayer].forEach(layer => {
       if (layer) {
         layer.setCollisionByProperty({ collidable: true });
