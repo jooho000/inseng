@@ -202,24 +202,42 @@ class CobanScene extends Phaser.Scene {
       bigTrees: map.addTilesetImage("big_trees", "big_trees"),
       vegetation: map.addTilesetImage("vegetation_tyles", "vegetation_tyles")
     };
-
-    map.createLayer("water_layer", tilesets.water);
+  
+    const waterLayer = map.createLayer("water_layer", tilesets.water);
     map.createLayer("ground_layer", tilesets.ground);
     map.createLayer("grass_layer", tilesets.ground);
-    map.createLayer("wall_layer", tilesets.wall);
-    map.createLayer("upper_trees_layer", tilesets.smallTrees);
-    map.createLayer("upper_trees_second_layer", tilesets.smallTrees);
+    const wallLayer = map.createLayer("wall_layer", tilesets.wall);
+    const upperTreesLayer = map.createLayer("upper_trees_layer", tilesets.smallTrees);
+    const upperTreesSecondLayer = map.createLayer("upper_trees_second_layer", tilesets.smallTrees);
     map.createLayer("vegetation_layer", tilesets.vegetation);
-    map.createLayer("props_layer", [tilesets.furniture, tilesets.rocks]);
+    const propsLayer = map.createLayer("props_layer", [tilesets.furniture, tilesets.rocks]);
     map.createLayer("lower_trees_layer", tilesets.bigTrees).setDepth(2);
     map.createLayer("lower_trees_second_layer", tilesets.bigTrees).setDepth(2);
-
-    createPlayer(this, 305, 50);
+  
+    // Create player
+    createPlayer(this, 305, 60);
+  
+    // Set collision by property
+    waterLayer.setCollisionByProperty({ collidable: true });
+    wallLayer.setCollisionByProperty({ collidable: true });
+    upperTreesLayer.setCollisionByProperty({ collidable: true });
+    upperTreesSecondLayer.setCollisionByProperty({ collidable: true });
+    propsLayer.setCollisionByProperty({ collidable: true });
+  
+    // Enable collision
+    this.physics.add.collider(player, waterLayer);
+    this.physics.add.collider(player, wallLayer);
+    this.physics.add.collider(player, upperTreesLayer);
+    this.physics.add.collider(player, upperTreesSecondLayer);
+    this.physics.add.collider(player, propsLayer);
+  
+    // Add door logic and camera
     addDoors(map, this, 'doors');
     this.cameras.main.startFollow(player);
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   }
+  
 
   update() {
     updateScene(this);
