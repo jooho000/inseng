@@ -33,7 +33,7 @@ function createPlayer(scene, x = 16, y = 150) {
 
 function handlePlayerMovement(scene) {
   if (inDialog) return;
-  const speed = 60;
+  const speed = 80;
   player.setVelocity(0);
   let moving = false;
   const cursors = scene.input.keyboard.createCursorKeys();
@@ -135,34 +135,58 @@ function updateScene(scene) {
 }
 
 class HubScene extends Phaser.Scene {
-  constructor() { super('hub'); }
+  constructor() {
+    super('hub');
+  }
 
   preload() {
     this.load.tilemapTiledJSON('hub', 'assets/maps/hub.json');
+
+    // Tilesets used in hub.json
     this.load.image('hub_floor_wall_tyles', 'assets/tilesets/hub_tileset/room.png');
     this.load.image('coban_furnishing_tyles', 'assets/tilesets/coban_tileset/Props.png');
     this.load.image('coban_floor_tyles', 'assets/tilesets/hub_tileset/Floors.png');
     this.load.image('coban_wall_tyles', 'assets/tilesets/coban_tileset/Walls.png');
+    this.load.image('valencia_furnishing_tyles', 'assets/tilesets/valencia_tileset/furniture.png');
+    this.load.image('valencia_floor_tyles', 'assets/tilesets/valencia_tileset/floor.png');
+    this.load.image('valencia_wall_tyles', 'assets/tilesets/valencia_tileset/walls.png');
+
+    // Player assets
     this.load.spritesheet('player_idle', 'assets/player/player_idle.png', { frameWidth: 16, frameHeight: 32 });
     this.load.spritesheet('player_run', 'assets/player/player_run.png', { frameWidth: 16, frameHeight: 32 });
   }
 
   create() {
     const map = this.make.tilemap({ key: 'hub' });
-    const hubTyles = map.addTilesetImage('floor_tyles', 'hub_floor_wall_tyles');
+
+    // Tilesets from Tiled JSON: name must match "name" from the tileset entry
+    const hubTiles = map.addTilesetImage('floor_tyles', 'hub_floor_wall_tyles');
     const cobanFurniture = map.addTilesetImage('furnishing_layer', 'coban_furnishing_tyles');
     const cobanFloor = map.addTilesetImage('coban_floor', 'coban_floor_tyles');
     const cobanWall = map.addTilesetImage('coban_wall', 'coban_wall_tyles');
+    const valenciaFloor = map.addTilesetImage('valencia_floor', 'valencia_floor_tyles');
+    const valenciaWall = map.addTilesetImage('valencia_wall', 'valencia_wall_tyles');
+    const valenciaFurniture = map.addTilesetImage('valencia_furnishing', 'valencia_furnishing_tyles');
 
-    map.createLayer('hub_floor_layer', [hubTyles, cobanFloor]);
-    const wallLayer = map.createLayer('hub_wall_layer', [hubTyles, cobanWall]);
-    map.createLayer('hub_furinishing_layer', [cobanFurniture]);
+    // Layers
+    map.createLayer('hub_floor_layer', [hubTiles, cobanFloor, valenciaFloor]);
 
+    const wallLayer = map.createLayer('hub_wall_layer', [hubTiles, cobanWall, valenciaWall]);
+    const furnitureLayer = map.createLayer('hub_furinishing_layer', [cobanFurniture, valenciaFurniture]);
+
+    // Collisions based on tile property in tileset (e.g. "collidable": true)
+    wallLayer.setCollisionByProperty({ collidable: true });
+    furnitureLayer.setCollisionByProperty({ collidable: true });
+
+    // Create player — assumed to define `player` globally or on scene
     createPlayer(this);
-    wallLayer.setCollisionByExclusion([-1]);
     this.physics.add.collider(player, wallLayer);
+    this.physics.add.collider(player, furnitureLayer);
 
+    // Add door interactions from object layer named "doors"
     addDoors(map, this, 'doors');
+
+    // Camera + world bounds
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.cameras.main.startFollow(player);
@@ -172,6 +196,7 @@ class HubScene extends Phaser.Scene {
     updateScene(this);
   }
 }
+
 
 class CobanScene extends Phaser.Scene {
   constructor() { super("coban"); }
@@ -244,6 +269,60 @@ class CobanScene extends Phaser.Scene {
   }
 }
 
+class ValenciaScene extends Phaser.Scene {
+  constructor() { super("valencia"); }
+
+  preload() {
+    this.load.tilemapTiledJSON("valencia", "assets/maps/valencia.json");
+    this.load.image("bed_tyles", "assets/tilesets/valencia_tileset/beds.png");
+    this.load.image("furniture_tyles", "assets/tilesets/valencia_tileset/furniture.png");
+    this.load.image("furniture2_tyles", "assets/tilesets/valencia_tileset/furniture2.png");
+    this.load.image("floor_tyles", "assets/tilesets/valencia_tileset/floor.png");
+    this.load.image("wall_tyles", "assets/tilesets/valencia_tileset/walls.png");
+    this.load.spritesheet('player_idle', 'assets/player/player_idle.png', { frameWidth: 16, frameHeight: 32 });
+    this.load.spritesheet('player_run', 'assets/player/player_run.png', { frameWidth: 16, frameHeight: 32 });
+  }
+
+  create() {
+    const map = this.make.tilemap({ key: "valencia" });
+
+    const tilesets = {
+      beds: map.addTilesetImage("beds", "bed_tyles"),
+      furniture: map.addTilesetImage("furniture", "furniture_tyles"),
+      furniture2: map.addTilesetImage("furniture2", "furniture2_tyles"),
+      floor: map.addTilesetImage("valencia_floor", "floor_tyles"),
+      wall: map.addTilesetImage("valencia_walls", "wall_tyles")
+    };
+
+    // Create tile layers using appropriate tilesets
+    map.createLayer("valencia_floor", tilesets.floor);
+    const wallLayer = map.createLayer("valencia_walls", tilesets.wall);
+    const furnitureLayer = map.createLayer("valencia_furniture", [tilesets.furniture, tilesets.furniture2, tilesets.beds]);
+
+    // Create player
+    createPlayer(this, 100, 100);
+
+    // Set collision by property
+    wallLayer.setCollisionByProperty({ collidable: true });
+    furnitureLayer.setCollisionByProperty({ collidable: true });
+
+    // Add collisions
+    this.physics.add.collider(player, wallLayer);
+    this.physics.add.collider(player, furnitureLayer);
+
+    // Add door logic and camera
+    addDoors(map, this, 'doors');
+    this.cameras.main.startFollow(player);
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+  }
+
+  update() {
+    updateScene(this);
+  }
+}
+
+
 const config = {
   type: Phaser.AUTO,
   width: 320,
@@ -253,7 +332,7 @@ const config = {
     default: 'arcade',
     arcade: { debug: false }
   },
-  scene: [HubScene, CobanScene],
+  scene: [HubScene, CobanScene, ValenciaScene],
   scale: {
     zoom: 4.2,
     autoCenter: Phaser.Scale.CENTER_BOTH
