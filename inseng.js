@@ -203,14 +203,14 @@ class CobanScene extends Phaser.Scene {
 
   preload() {
     this.load.tilemapTiledJSON("coban", "assets/maps/coban.json");
-    this.load.image("water_tyles", "assets/tilesets/coban_tileset/Water_tiles.png");
-    this.load.image("ground_tyles", "assets/tilesets/coban_tileset/Floors_Tiles.png");
-    this.load.image("wall_tyles", "assets/tilesets/coban_tileset/Walls.png");
-    this.load.image("furniture_tyles", "assets/tilesets/coban_tileset/Props.png");
-    this.load.image("small_trees", "assets/tilesets/coban_tileset/small_trees.png");
-    this.load.image("rock_tyles", "assets/tilesets/coban_tileset/Rocks.png");
-    this.load.image("big_trees", "assets/tilesets/coban_tileset/large_trees.png");
-    this.load.image("vegetation_tyles", "assets/tilesets/coban_tileset/Vegetation.png");
+    this.load.image("coban_water_tyles", "assets/tilesets/coban_tileset/Water_tiles.png");
+    this.load.image("coban_ground_tyles", "assets/tilesets/coban_tileset/Floors_Tiles.png");
+    this.load.image("coban_wall_tyles", "assets/tilesets/coban_tileset/Walls.png");
+    this.load.image("coban_furniture_tyles", "assets/tilesets/coban_tileset/Props.png");
+    this.load.image("coban_small_trees", "assets/tilesets/coban_tileset/small_trees.png");
+    this.load.image("coban_rock_tyles", "assets/tilesets/coban_tileset/Rocks.png");
+    this.load.image("coban_big_trees", "assets/tilesets/coban_tileset/large_trees.png");
+    this.load.image("coban_vegetation_tyles", "assets/tilesets/coban_tileset/Vegetation.png");
     this.load.spritesheet('player_idle', 'assets/player/player_idle.png', { frameWidth: 16, frameHeight: 32 });
     this.load.spritesheet('player_run', 'assets/player/player_run.png', { frameWidth: 16, frameHeight: 32 });
   }
@@ -218,26 +218,26 @@ class CobanScene extends Phaser.Scene {
   create() {
     const map = this.make.tilemap({ key: "coban" });
     const tilesets = {
-      water: map.addTilesetImage("water_tyles", "water_tyles"),
-      ground: map.addTilesetImage("ground_tyles", "ground_tyles"),
-      wall: map.addTilesetImage("wall_tyles", "wall_tyles"),
-      furniture: map.addTilesetImage("furniture_tyles", "furniture_tyles"),
-      smallTrees: map.addTilesetImage("small_trees", "small_trees"),
-      rocks: map.addTilesetImage("rock_tyles", "rock_tyles"),
-      bigTrees: map.addTilesetImage("big_trees", "big_trees"),
-      vegetation: map.addTilesetImage("vegetation_tyles", "vegetation_tyles")
+      water: map.addTilesetImage("coban_water_tyles", "coban_water_tyles"),
+      ground: map.addTilesetImage("coban_ground_tyles", "coban_ground_tyles"),
+      wall: map.addTilesetImage("coban_wall_tyles", "coban_wall_tyles"),
+      furniture: map.addTilesetImage("coban_furniture_tyles", "coban_furniture_tyles"),
+      smallTrees: map.addTilesetImage("coban_small_trees", "coban_small_trees"),
+      rocks: map.addTilesetImage("coban_rock_tyles", "coban_rock_tyles"),
+      bigTrees: map.addTilesetImage("coban_big_trees", "coban_big_trees"),
+      vegetation: map.addTilesetImage("coban_vegetation_tyles", "coban_vegetation_tyles")
     };
   
-    const waterLayer = map.createLayer("water_layer", tilesets.water);
-    map.createLayer("ground_layer", tilesets.ground);
-    map.createLayer("grass_layer", tilesets.ground);
-    const wallLayer = map.createLayer("wall_layer", tilesets.wall);
-    const upperTreesLayer = map.createLayer("upper_trees_layer", tilesets.smallTrees);
-    const upperTreesSecondLayer = map.createLayer("upper_trees_second_layer", tilesets.smallTrees);
-    map.createLayer("vegetation_layer", tilesets.vegetation);
-    const propsLayer = map.createLayer("props_layer", [tilesets.furniture, tilesets.rocks]);
-    map.createLayer("lower_trees_layer", tilesets.bigTrees).setDepth(2);
-    map.createLayer("lower_trees_second_layer", tilesets.bigTrees).setDepth(2);
+    const waterLayer = map.createLayer("coban_water_layer", tilesets.water);
+    map.createLayer("coban_ground_layer", tilesets.ground);
+    map.createLayer("coban_grass_layer", tilesets.ground);
+    const wallLayer = map.createLayer("coban_wall_layer", tilesets.wall);
+    const upperTreesLayer = map.createLayer("coban_upper_trees_layer", tilesets.smallTrees);
+    const upperTreesSecondLayer = map.createLayer("coban_upper_trees_second_layer", tilesets.smallTrees);
+    map.createLayer("coban_vegetation_layer", tilesets.vegetation);
+    const propsLayer = map.createLayer("coban_props_layer", [tilesets.furniture, tilesets.rocks]);
+    map.createLayer("coban_lower_trees_layer", tilesets.bigTrees).setDepth(2);
+    map.createLayer("coban_lower_trees_second_layer", tilesets.bigTrees).setDepth(2);
   
     // Create player
     createPlayer(this, 305, 60);
@@ -274,11 +274,11 @@ class ValenciaScene extends Phaser.Scene {
 
   preload() {
     this.load.tilemapTiledJSON("valencia", "assets/maps/valencia.json");
-    this.load.image("bed_tyles", "assets/tilesets/valencia_tileset/beds.png");
-    this.load.image("furniture_tyles", "assets/tilesets/valencia_tileset/furniture.png");
-    this.load.image("furniture2_tyles", "assets/tilesets/valencia_tileset/furniture2.png");
-    this.load.image("floor_tyles", "assets/tilesets/valencia_tileset/floor.png");
-    this.load.image("wall_tyles", "assets/tilesets/valencia_tileset/walls.png");
+    this.load.image("valencia_bed_tyles", "assets/tilesets/valencia_tileset/beds.png");
+    this.load.image("valencia_furniture_tyles", "assets/tilesets/valencia_tileset/furniture.png");
+    this.load.image("valencia_furniture2_tyles", "assets/tilesets/valencia_tileset/furniture2.png");
+    this.load.image("valencia_floor_tyles", "assets/tilesets/valencia_tileset/floor.png");
+    this.load.image("valencia_wall_tyles", "assets/tilesets/valencia_tileset/walls.png");
     this.load.spritesheet('player_idle', 'assets/player/player_idle.png', { frameWidth: 16, frameHeight: 32 });
     this.load.spritesheet('player_run', 'assets/player/player_run.png', { frameWidth: 16, frameHeight: 32 });
   }
@@ -287,11 +287,11 @@ class ValenciaScene extends Phaser.Scene {
     const map = this.make.tilemap({ key: "valencia" });
 
     const tilesets = {
-      beds: map.addTilesetImage("beds", "bed_tyles"),
-      furniture: map.addTilesetImage("furniture", "furniture_tyles"),
-      furniture2: map.addTilesetImage("furniture2", "furniture2_tyles"),
-      floor: map.addTilesetImage("valencia_floor", "floor_tyles"),
-      wall: map.addTilesetImage("valencia_walls", "wall_tyles")
+      beds: map.addTilesetImage("valencia_beds", "valencia_bed_tyles"),
+      furniture: map.addTilesetImage("valencia_furniture", "valencia_furniture_tyles"),
+      furniture2: map.addTilesetImage("valencia_furniture2", "valencia_furniture2_tyles"),
+      floor: map.addTilesetImage("valencia_floor", "valencia_floor_tyles"),
+      wall: map.addTilesetImage("valencia_walls", "valencia_wall_tyles")
     };
 
     // Create tile layers using appropriate tilesets
