@@ -15,12 +15,13 @@ function createAnimations(scene) {
   }
 }
 
-function createPlayer(scene) {
-  player = scene.physics.add.sprite(16, 150, 'player_idle', 0);
+function createPlayer(scene, x = 16, y = 150) {
+  player = scene.physics.add.sprite(x, y, 'player_idle', 0);
   player.setOrigin(0.5, 1);
   player.setDepth(1);
   player.setCollideWorldBounds(true);
-  scene.physics.world.setBounds(0, 0, scene.sys.game.config.width, scene.sys.game.config.height);
+  player.body.setSize(12, 8);
+  player.body.setOffset(2, 24);
   createAnimations(scene);
 }
 
@@ -57,17 +58,7 @@ function handlePlayerMovement(scene) {
   }
 }
 
-function addColliders(map, layerName, scene) {
-  const objects = map.getObjectLayer(layerName)?.objects || [];
-  objects.forEach(obj => {
-    const wall = scene.add.rectangle(obj.x, obj.y, obj.width, obj.height).setOrigin(0, 0);
-    wall.visible = false;
-    scene.physics.add.existing(wall, true);
-    scene.physics.add.collider(player, wall);
-  });
-}
-
-function addDoors(map, scene, layerName = 'coban_door') {
+function addDoors(map, scene, layerName = 'doors') {
   const doors = map.getObjectLayer(layerName)?.objects || [];
   doors.forEach(obj => {
     const door = scene.add.rectangle(obj.x, obj.y, obj.width, obj.height).setOrigin(0, 0);
@@ -88,25 +79,39 @@ class HubScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('floor_ceiling', 'assets/tilesets/hub_tileset/room.png');
-    this.load.image('furnishing', 'assets/tilesets/hub_tileset/furniture.png');
     this.load.tilemapTiledJSON('hub', 'assets/maps/hub.json');
 
+    this.load.image('hub_floor_wall_tyles', 'assets/tilesets/hub_tileset/room.png');
+    this.load.image('coban_furnishing_tyles', 'assets/tilesets/coban_tileset/Props.png');
+    this.load.image('coban_floor_tyles', 'assets/tilesets/hub_tileset/Floors.png');
+    this.load.image('coban_wall_tyles', 'assets/tilesets/coban_tileset/Walls.png');
+
     this.load.spritesheet('player_idle', 'assets/player/player_idle.png', { frameWidth: 16, frameHeight: 32 });
-    this.load.spritesheet('player_run', 'assets/player/player_run.png', { frameWidth: 16, frameHeight: 32 });
+    this.load.spritesheet('player_run',  'assets/player/player_run.png',  { frameWidth: 16, frameHeight: 32 });
   }
 
   create() {
     const map = this.make.tilemap({ key: 'hub' });
-    const floorTiles = map.addTilesetImage('floor_ceiling', 'floor_ceiling');
-    const furnTiles = map.addTilesetImage('furnishing', 'furnishing');
 
-    map.createLayer('Tile Layer 1', [floorTiles]);
-    map.createLayer('Tile Layer 2', [furnTiles]);
+    const hubTyles = map.addTilesetImage('floor_tyles', 'hub_floor_wall_tyles');
+    const cobanFurniture = map.addTilesetImage('furnishing_layer', 'coban_furnishing_tyles');
+    const cobanFloor = map.addTilesetImage('coban_floor', 'coban_floor_tyles');
+    const cobanWall = map.addTilesetImage('coban_wall', 'coban_wall_tyles');
+
+    map.createLayer('hub_floor_layer', [hubTyles, cobanFloor]);
+    const wallLayer = map.createLayer('hub_wall_layer', [hubTyles, cobanWall]);
+    map.createLayer('hub_furinishing_layer', [cobanFurniture]);
 
     createPlayer(this);
-    addColliders(map, 'wall', this);
-    addDoors(map, this, 'coban_door');
+
+    wallLayer.setCollisionByExclusion([-1]);
+    this.physics.add.collider(player, wallLayer);
+
+    addDoors(map, this, 'doors');
+
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.startFollow(player);
   }
 
   update() {
@@ -116,43 +121,73 @@ class HubScene extends Phaser.Scene {
 
 class CobanScene extends Phaser.Scene {
   constructor() {
-    super('coban');
+    super("coban");
   }
 
   preload() {
-    const base = 'assets/tilesets/coban_tileset/';
-    this.load.tilemapTiledJSON('coban', 'assets/maps/coban.json');
-    this.load.image('walls', base + 'Walls.png');
-    this.load.image('roofs', base + 'Roofs.png');
-    this.load.image('floor', base + 'Floors_Tiles.png');
-    this.load.image('water', base + 'Water_tiles.png');
-    this.load.image('rocks', base + 'Rocks.png');
-    this.load.image('door', base + 'Furniture.png');
-    this.load.image('trees', base + 'Trees.png');
-    this.load.image('plants', base + 'Vegetation.png');
+    this.load.tilemapTiledJSON("coban", "assets/maps/coban.json");
 
+    // Load all tileset images
+    this.load.image("water_tyles", "assets/tilesets/coban_tileset/Water_tiles.png");
+    this.load.image("ground_tyles", "assets/tilesets/coban_tileset/Floors_Tiles.png");
+    this.load.image("wall_tyles", "assets/tilesets/coban_tileset/Walls.png");
+    this.load.image("furniture_tyles", "assets/tilesets/coban_tileset/Props.png");
+    this.load.image("small_trees", "assets/tilesets/coban_tileset/small_trees.png");
+    this.load.image("rock_tyles", "assets/tilesets/coban_tileset/Rocks.png");
+    this.load.image("big_trees", "assets/tilesets/coban_tileset/large_trees.png");
+    this.load.image("vegetation_tyles", "assets/tilesets/coban_tileset/Vegetation.png");
+
+    // Player spritesheets
     this.load.spritesheet('player_idle', 'assets/player/player_idle.png', { frameWidth: 16, frameHeight: 32 });
-    this.load.spritesheet('player_run', 'assets/player/player_run.png', { frameWidth: 16, frameHeight: 32 });
+    this.load.spritesheet('player_run',  'assets/player/player_run.png',  { frameWidth: 16, frameHeight: 32 });
   }
 
   create() {
-    const map = this.make.tilemap({ key: 'coban' });
-    const tilesets = [
-      map.addTilesetImage('roofs', 'roofs'),
-      map.addTilesetImage('floor', 'floor'),
-      map.addTilesetImage('walls', 'walls'),
-      map.addTilesetImage('water', 'water'),
-      map.addTilesetImage('rocks', 'rocks'),
-      map.addTilesetImage('door', 'door'),
-      map.addTilesetImage('trees', 'trees'),
-      map.addTilesetImage('plants', 'plants')
-    ];
+    const map = this.make.tilemap({ key: "coban" });
 
-    map.createLayer('Tile Layer 3', tilesets);
-    map.createLayer('Tile Layer 2', tilesets);
-    map.createLayer('Tile Layer 1', tilesets);
+    // Load tilesets
+    const tilesets = {
+      water: map.addTilesetImage("water_tyles", "water_tyles"),
+      ground: map.addTilesetImage("ground_tyles", "ground_tyles"),
+      wall: map.addTilesetImage("wall_tyles", "wall_tyles"),
+      furniture: map.addTilesetImage("furniture_tyles", "furniture_tyles"),
+      smallTrees: map.addTilesetImage("small_trees", "small_trees"),
+      rocks: map.addTilesetImage("rock_tyles", "rock_tyles"),
+      bigTrees: map.addTilesetImage("big_trees", "big_trees"),
+      vegetation: map.addTilesetImage("vegetation_tyles", "vegetation_tyles"),
+    };
 
-    createPlayer(this);
+    // Create all tile layers
+    const waterLayer = map.createLayer("water_layer", tilesets.water);
+    map.createLayer("ground_layer", tilesets.ground);
+    map.createLayer("grass_layer", tilesets.ground);
+    map.createLayer("vegetation_layer", tilesets.vegetation);
+    const wallLayer = map.createLayer("wall_layer", tilesets.wall);
+    const propsLayer = map.createLayer("props_layer", [tilesets.furniture, tilesets.rocks]);
+    map.createLayer("lower_trees_layer", tilesets.bigTrees);
+    map.createLayer("lower_trees_second_layer", tilesets.bigTrees);
+    const upperTreesLayer = map.createLayer("upper_trees_layer", tilesets.smallTrees);
+    const upperTreesSecondLayer = map.createLayer("upper_trees_second_layer", tilesets.smallTrees);
+
+    // ✅ Properly use tile property-based collision
+    [wallLayer, propsLayer, upperTreesLayer, upperTreesSecondLayer, waterLayer].forEach(layer => {
+      if (layer) {
+        layer.setCollisionByProperty({ collidable: true });
+      }
+    });
+
+    // Create the player
+    createPlayer(this, 100, 100);
+
+    // Collisions
+    this.physics.add.collider(player, wallLayer);
+    this.physics.add.collider(player, propsLayer);
+    this.physics.add.collider(player, upperTreesLayer);
+    this.physics.add.collider(player, upperTreesSecondLayer);
+
+    // Camera setup
+    this.cameras.main.startFollow(player);
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   }
 
   update() {
@@ -169,7 +204,11 @@ const config = {
     default: 'arcade',
     arcade: { debug: false }
   },
-  scene: [HubScene, CobanScene]
+  scene: [HubScene, CobanScene],
+  scale: {
+    zoom: 4.2,
+    autoCenter: Phaser.Scale.CENTER_BOTH
+  }
 };
 
 const game = new Phaser.Game(config);
