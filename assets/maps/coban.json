@@ -222,7 +222,7 @@
         {
          "columns":25,
          "firstgid":1,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Tilesets\/Water_tiles.png",
+         "image":"assets/tilesets/coban_tileset/Water_tiles.png",
          "imageheight":400,
          "imagewidth":400,
          "margin":0,
@@ -235,7 +235,7 @@
         {
          "columns":25,
          "firstgid":626,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Tilesets\/Floors_Tiles.png",
+         "image":"assets/tilesets/coban_tileset/Floors_Tiles.png",
          "imageheight":416,
          "imagewidth":400,
          "margin":0,
@@ -248,7 +248,7 @@
         {
          "columns":42,
          "firstgid":1276,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Structures\/Buildings\/Walls.png",
+         "image":"assets/tilesets/coban_tileset/Walls.png",
          "imageheight":800,
          "imagewidth":672,
          "margin":0,
@@ -261,7 +261,7 @@
         {
          "columns":25,
          "firstgid":3376,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Structures\/Buildings\/Props.png",
+         "image":"assets/tilesets/coban_tileset/Props.png",
          "imageheight":400,
          "imagewidth":400,
          "margin":0,
@@ -274,7 +274,7 @@
         {
          "columns":9,
          "firstgid":4001,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Props\/Static\/Trees\/Model_02\/Size_03.png",
+         "image":"assets/tilesets/coban_tileset/small_trees.png",
          "imageheight":160,
          "imagewidth":144,
          "margin":0,
@@ -293,7 +293,7 @@
         {
          "columns":13,
          "firstgid":4091,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Props\/Static\/Rocks.png",
+         "image":"assets/tilesets/coban_tileset/Rocks.png",
          "imageheight":304,
          "imagewidth":208,
          "margin":0,
@@ -306,7 +306,7 @@
         {
          "columns":12,
          "firstgid":4338,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Props\/Static\/Trees\/Model_03\/Size_03.png",
+         "image":"assets/tilesets/coban_tileset/large_trees.png",
          "imageheight":288,
          "imagewidth":192,
          "margin":0,
@@ -319,7 +319,7 @@
         {
          "columns":25,
          "firstgid":4554,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Props\/Static\/Vegetation.png",
+         "image":"assets/tilesets/coban_tileset/Vegetation.png",
          "imageheight":432,
          "imagewidth":400,
          "margin":0,

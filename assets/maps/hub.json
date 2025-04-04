@@ -109,7 +109,7 @@
         {
          "columns":17,
          "firstgid":1,
-         "image":"Modern_Interiors_Free_v2.2\/Modern tiles_Free\/Interiors_free\/16x16\/Room_Builder_free_16x16.png",
+         "image":"assets/tilesets/hub_tileset/room.png",
          "imageheight":368,
          "imagewidth":272,
          "margin":0,
@@ -122,7 +122,7 @@
         {
          "columns":25,
          "firstgid":392,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Structures\/Buildings\/Props.png",
+         "image":"assets/tilesets/coban_tileset/Props.png",
          "imageheight":400,
          "imagewidth":400,
          "margin":0,
@@ -135,7 +135,7 @@
         {
          "columns":25,
          "firstgid":1017,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Structures\/Buildings\/Floors.png",
+         "image":"assets/tilesets/hub_tileset/Floors.png",
          "imageheight":400,
          "imagewidth":400,
          "margin":0,
@@ -148,7 +148,7 @@
         {
          "columns":42,
          "firstgid":1642,
-         "image":"Pixel Crawler - Free Pack 2.0.4\/Pixel Crawler - Free Pack\/Environment\/Structures\/Buildings\/Walls.png",
+         "image":"assets/tilesets/coban_tileset/Walls.png",
          "imageheight":800,
          "imagewidth":672,
          "margin":0,

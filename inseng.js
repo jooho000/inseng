@@ -161,32 +161,20 @@ class CobanScene extends Phaser.Scene {
     const waterLayer = map.createLayer("water_layer", tilesets.water);
     map.createLayer("ground_layer", tilesets.ground);
     map.createLayer("grass_layer", tilesets.ground);
-    map.createLayer("vegetation_layer", tilesets.vegetation);
     const wallLayer = map.createLayer("wall_layer", tilesets.wall);
-    const propsLayer = map.createLayer("props_layer", [tilesets.furniture, tilesets.rocks]);
-    map.createLayer("lower_trees_layer", tilesets.bigTrees);
-    map.createLayer("lower_trees_second_layer", tilesets.bigTrees);
     const upperTreesLayer = map.createLayer("upper_trees_layer", tilesets.smallTrees);
     const upperTreesSecondLayer = map.createLayer("upper_trees_second_layer", tilesets.smallTrees);
-
-    [wallLayer, propsLayer, upperTreesLayer, upperTreesSecondLayer, waterLayer].forEach(layer => {
-      if (layer) {
-        layer.setCollisionByProperty({ collidable: true });
-      }
-    });
-
-    // Create the player
+    map.createLayer("vegetation_layer", tilesets.vegetation);
+    const propsLayer = map.createLayer("props_layer", [tilesets.furniture, tilesets.rocks]);
     createPlayer(this, 100, 100);
-
-    // Collisions
-    this.physics.add.collider(player, wallLayer);
-    this.physics.add.collider(player, propsLayer);
-    this.physics.add.collider(player, upperTreesLayer);
-    this.physics.add.collider(player, upperTreesSecondLayer);
+    map.createLayer("lower_trees_layer", tilesets.bigTrees);
+    map.createLayer("lower_trees_second_layer", tilesets.bigTrees);
 
     // Camera setup
     this.cameras.main.startFollow(player);
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
   }
 
   update() {
