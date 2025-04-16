@@ -95,7 +95,7 @@
                         {
                          "name":"targetScene",
                          "type":"string",
-                         "value":"ucsc"
+                         "value":"UCSC"
                         }],
                  "rotation":0,
                  "type":"",
